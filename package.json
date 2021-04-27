@@ -1,6 +1,6 @@
 {
   "name": "pr-reviews-reminder-action",
-  "version": "1.5.0",
+  "version": "1.5.2",
   "description": "Reminder for Pull Request pending reviews",
   "scripts": {
     "build": "ncc build index.js",
@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DavideViolante/pr-reviews-reminder-action.git"
+    "url": "git+https://github.com/zhgchgli0718/pr-reviews-reminder-action.git"
   },
   "author": "Davide Violante",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/DavideViolante/pr-reviews-reminder-action/issues"
+    "url": "https://github.com/zhgchgli0718/pr-reviews-reminder-action/issues"
   },
-  "homepage": "https://github.com/DavideViolante/pr-reviews-reminder-action#readme",
+  "homepage": "https://github.com/zhgchgli0718/pr-reviews-reminder-action#readme",
   "dependencies": {
     "@actions/core": "^1.2.6",
     "axios": "^0.21.1"
