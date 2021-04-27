@@ -1,6 +1,6 @@
 {
   "name": "pr-reviews-reminder-action",
-  "version": "1.5.2",
+  "version": "1.5.3",
   "description": "Reminder for Pull Request pending reviews",
   "scripts": {
     "build": "ncc build index.js",
