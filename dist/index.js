@@ -490,7 +490,7 @@ function prettyMessage(pr2user, github2provider, provider) {
   for (const obj of pr2user) {
     const mention = github2provider[obj.login] ? `<@${github2provider[obj.login]}>` : `@${obj.login}`;
     if (pr_messages[obj.url]) {
-      pr_messages[obj.url].users.append(mention)
+      pr_messages[obj.url].users.push(mention)
     } else {
       pr_messages[obj.url] = {
       	'url': obj.url,
