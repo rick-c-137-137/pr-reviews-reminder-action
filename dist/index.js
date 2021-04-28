@@ -486,14 +486,27 @@ function stringToObject(str) {
 
 function prettyMessage(pr2user, github2provider, provider) {
   let message = '';
+  var pr_messages = {};
   for (const obj of pr2user) {
     const mention = github2provider[obj.login] ? `<@${github2provider[obj.login]}>` : `@${obj.login}`;
+    if (pr_messages[obj.url]) {
+      pr_messages[obj.url].users.append(mention)
+    } else {
+      pr_messages[obj.url] = {
+      	'url': obj.url,
+        'title': obj.title,
+	'users': [mention]
+      };
+    }
+  }
+  for (var key in pr_messages) {
+    const obj = pr_messages[key]
     switch (provider) {
       case 'slack':
-        message += `PR <${obj.url}|${obj.title}> 正在等待 Review 哦 ${mention}\n`;
+        message += `PR <${obj.url}|${obj.title}> 正在等待 Review 哦, ${obj.users.join(', ')}\n`;
         break;
       case 'msteams':
-        message += `PR <${obj.url}|${obj.title}> 正在等待 Review 哦 ${mention}\n`;
+        message += `PR <${obj.url}|${obj.title}> 正在等待 Review 哦, ${obj.users.join(', ')}\n`;
         break;
     }
   }
