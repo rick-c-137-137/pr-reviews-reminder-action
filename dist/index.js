@@ -897,7 +897,7 @@ function sendNotification(webhookUrl, channel, message) {
     url: webhookUrl,
     data: {
       channel: channel,
-      username: 'Pull Request reviews reminder',
+      username: 'PR Review Reminder',
       text: message,
     }
   });
