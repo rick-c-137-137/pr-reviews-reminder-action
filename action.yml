@@ -4,17 +4,12 @@ branding:
   icon: 'bell'
   color: 'red'
 inputs:
-  webhook-url:
-    description: 'Webhook URL'
+  slackBotToken:
+    description: 'slackBotToken'
     required: true
-  provider:
-    description: 'Provider: slack or msteams'
+  slackBotChannelID:
+    description: 'slackBotChannelID'
     required: true
-    default: 'slack'
-  channel:
-    description: 'Channel name'
-    required: false
-    default: '#general'
   github-provider-map:
     description: 'Map GitHub username to Slack user IDs. Eg: "DavideViolante:UABCDEFGH,foobar123:UIHJKLMNO"'
     required: false
