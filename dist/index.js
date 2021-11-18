@@ -484,7 +484,7 @@ function stringToObject(str) {
   return map;
 }
 
-function prettyMessage(pr2user, github2provider, provider) {
+function prettyMessage(pr2user, github2provider) {
   let message = '';
   var pr_messages = {};
   for (const obj of pr2user) {
@@ -501,14 +501,7 @@ function prettyMessage(pr2user, github2provider, provider) {
   }
   for (var key in pr_messages) {
     const obj = pr_messages[key]
-    switch (provider) {
-      case 'slack':
-        message += `PR <${obj.url}|${obj.title}> 正在等待 Review 哦, ${obj.users.join(', ')}\n`;
-        break;
-      case 'msteams':
-        message += `PR <${obj.url}|${obj.title}> 正在等待 Review 哦, ${obj.users.join(', ')}\n`;
-        break;
-    }
+    message += `PR <${obj.url}|${obj.title}> 正在等待 Review 哦, ${obj.users.join(', ')}\n`;
   }
   return message;
 }
@@ -891,23 +884,22 @@ function getPullRequests() {
   });
 }
 
-function sendNotification(webhookUrl, channel, message) {
+function sendNotification(slackBotToken, slackBotChannelID, message) {
   return axios({
     method: 'POST',
-    url: webhookUrl,
+    url: 'https://slack.com/api/chat.postMessage',
     data: {
-      channel: channel,
-      username: 'PR Review Reminder',
+      channel: slackBotChannelID,
       text: message,
-    }
+    },
+    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer '+slackBotToken }
   });
 }
 
 async function main() {
   try {
-    const webhookUrl = core.getInput('webhook-url');
-    const provider = core.getInput('provider');
-    const channel = core.getInput('channel');
+    const slackBotToken = core.getInput('slackBotToken');
+    const slackBotChannelID = core.getInput('slackBotChannelID');
     const github2providerString = core.getInput('github-provider-map');
     core.info('Getting open pull requests...');
     const pullRequests = await getPullRequests();
@@ -917,8 +909,8 @@ async function main() {
     if (pullRequestsWithRequestedReviewers.length) {
       const pr2user = createPr2UserArray(pullRequestsWithRequestedReviewers);
       const github2provider = stringToObject(github2providerString);
-      const message = prettyMessage(pr2user, github2provider, provider);
-      await sendNotification(webhookUrl, channel, message);
+      const message = prettyMessage(pr2user, github2provider);
+      await sendNotification(slackBotToken, slackBotChannelID, message);
       core.info(`Notification sent successfully!`);
     }
   } catch (error) {
